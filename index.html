@@ -7,22 +7,47 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #0f0f0f, #1a1a1a);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle at center, #0f0f0f, #050505);
       color: white;
       padding: 40px 20px;
       line-height: 1.6;
+      transition: background 0.5s ease;
+      animation: fadeIn 2s ease;
     }
-    header { text-align: center; margin-bottom: 50px; }
-    h1 { font-size: 4rem; margin-bottom: 10px; }
-    h2 { font-size: 2rem; margin: 40px 0 10px; text-align: center; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      letter-spacing: 3px;
+      background: linear-gradient(to right, #00ccff, #0066ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: slideDown 1.2s ease;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      font-size: 2rem;
+      margin: 40px 0 10px;
+      text-align: center;
+    }
     p {
       font-size: 1.1rem;
       max-width: 800px;
       margin: 0 auto 20px;
       text-align: center;
     }
-    .play-btn {
+    .play-btn, .discord-btn {
       display: inline-block;
       background: #00ccff;
       color: #000;
@@ -33,16 +58,33 @@
       cursor: pointer;
       text-decoration: none;
       transition: 0.3s;
-      margin-top: 20px;
+      margin: 10px;
     }
-    .play-btn:hover { background: #009fcc; }
+    .play-btn:hover, .discord-btn:hover {
+      background: #009fcc;
+    }
     .section {
       max-width: 900px;
-      margin: 0 auto;
-      margin-bottom: 60px;
+      margin: 0 auto 60px auto;
+      text-align: center;
     }
-    ul { list-style: disc; padding-left: 40px; }
-    iframe { display: block; margin: 20px auto; border-radius: 10px; }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background: #1f1f1f;
+      padding: 10px 20px;
+      margin: 5px auto;
+      border-radius: 8px;
+      max-width: 600px;
+      text-align: left;
+    }
+    iframe {
+      display: block;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
     .killlog {
       font-family: monospace;
       background: #1e1e1e;
@@ -62,6 +104,10 @@
       width: 250px;
       border-radius: 8px;
     }
+    audio {
+      display: block;
+      margin: 0 auto 40px;
+    }
     footer {
       text-align: center;
       font-size: 0.9rem;
@@ -75,7 +121,13 @@
     <h1>rush.io</h1>
     <p>a simple gun game with bhop mechanics. (currently in beta)</p>
     <a class="play-btn" href="https://www.roblox.com/games/115765639656471/Beta" target="_blank">Play Now</a>
+    <a class="discord-btn" href="https://discord.gg/BnwdPRSKRs" target="_blank">Join Discord</a>
   </header>
+
+  <audio autoplay loop controls>
+    <source src="https://cdn.pixabay.com/audio/2023/04/12/audio_d900d238c2.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
   <div class="section">
     <h2>Gameplay Trailer</h2>
@@ -132,7 +184,7 @@
   <div class="section">
     <h2>Join the Community</h2>
     <p>Hop into our Discord to suggest features, report bugs, or just chill with the squad.</p>
-    <iframe src="https://discord.com/widget?id=000000000000000000&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+    <iframe src="https://discord.com/widget?id=1157372081141155860&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
   </div>
 
   <div class="section">
