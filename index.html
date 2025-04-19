@@ -5,38 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>rush.io - Roblox FPS</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       font-family: Arial, sans-serif;
       background: linear-gradient(to right, #0f0f0f, #1a1a1a);
       color: white;
-      text-align: center;
-      padding: 100px 20px;
+      padding: 40px 20px;
+      line-height: 1.6;
     }
-    h1 { font-size: 3rem; margin-bottom: 10px; }
-    p { font-size: 1.2rem; margin-bottom: 30px; }
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 2rem;
+      margin: 40px 0 10px;
+    }
+    p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto 20px;
+      text-align: center;
+    }
     .play-btn {
+      display: inline-block;
       background: #00ccff;
-      color: black;
+      color: #000;
       padding: 15px 30px;
+      font-size: 1.2rem;
       border: none;
       border-radius: 10px;
-      font-size: 1.2rem;
+      cursor: pointer;
       text-decoration: none;
+      transition: 0.3s;
+      margin-top: 20px;
     }
     .play-btn:hover {
       background: #009fcc;
     }
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      margin-bottom: 60px;
+    }
+    ul {
+      list-style: disc;
+      padding-left: 40px;
+    }
     footer {
-      margin-top: 50px;
-      color: #aaa;
+      text-align: center;
       font-size: 0.9rem;
+      color: #aaa;
+      margin-top: 100px;
     }
   </style>
 </head>
 <body>
-  <h1>rush.io</h1>
-  <p>fast-paced fps inspired by krunker.io — dominate the leaderboard, no mercy, just movement.</p>
-  <a class="play-btn" href="https://www.roblox.com/games/123456789/rush-io" target="_blank">Play Now</a>
-  <footer>&copy; 2025 rush.io | made by radicnt</footer>
+  <header>
+    <h1>rush.io</h1>
+    <p>a simple gun game with bhop mechanics. (currently in beta)</p>
+    <a class="play-btn" href="https://www.roblox.com/games/115765639656471/Beta" target="_blank">Play Now</a>
+  </header>
+
+  <div class="section">
+    <h2>About the Game</h2>
+    <p>rush.io is a fast-paced FPS inspired by classics like krunker.io. The focus is on pure skill, tight movement, and clean gunplay. The game features bhop mechanics for momentum-based movement and fluid traversal. Expect intensity and chaos in every match.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key Features</h2>
+    <ul>
+      <li>Smooth bhop-based movement mechanics</li>
+      <li>Quick respawn gunfight gameplay</li>
+      <li>Simple and clean UI</li>
+      <li>Multiple maps in rotation</li>
+      <li>Real-time kill logs and stats</li>
+      <li>Optimized for performance</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>In Development</h2>
+    <ul>
+      <li>Weapon skins and customization</li>
+      <li>Match history and leaderboard</li>
+      <li>Settings UI (sensitivity, FOV, etc.)</li>
+      <li>Private matches and custom lobbies</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Credits</h2>
+    <p>Game developed, built, and moderated by <strong>radicnt</strong> and <strong>ITypeTooMuchCodes</strong>.</p>
+  </div>
+
+  <footer>
+    &copy; 2025 rush.io — All rights reserved.
+  </footer>
 </body>
 </html>
