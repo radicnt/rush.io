@@ -110,9 +110,15 @@
   </style>
 </head>
 <body>
-  <video autoplay muted loop id="bg-video">
-    <source src="https://player.vimeo.com/external/346678684.sd.mp4?s=bda56732594f32d3ac670b4f5cb8674cc68f92a4&profile_id=165" type="video/mp4">
-  </video>
+  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
+    <iframe
+      src="https://www.youtube.com/embed/jw9crkSYaf4?autoplay=1&mute=1&controls=0&loop=1&playlist=jw9crkSYaf4&modestbranding=1&showinfo=0&rel=0"
+      frameborder="0"
+      allow="autoplay; fullscreen"
+      allowfullscreen
+      style="width: 100%; height: 100%; pointer-events: none;">
+    </iframe>
+  </div>
   <nav>
     <button onclick="goTo('mainScreen')">Home</button>
     <button onclick="goTo('shop')">Shop</button>
