@@ -7,13 +7,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
+    html, body {
+      height: 100%;
       font-family: 'Orbitron', sans-serif;
       background: linear-gradient(120deg, #0f0f0f, #0a0a0a);
       color: #e2e2e2;
-      padding-top: 100px;
-      overflow-x: hidden;
+      overflow: hidden;
+    }
+    #login-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      color: #0ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+      font-size: 1.5rem;
+    }
+    #login-screen input {
+      margin-top: 20px;
+      padding: 10px;
+      background: #111;
+      border: 1px solid #0ff;
+      color: #0ff;
+      border-radius: 8px;
     }
     nav {
       position: fixed;
@@ -26,45 +48,57 @@
       gap: 2rem;
       padding: 20px;
       z-index: 1000;
+      animation: slideDown 1s ease;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
     nav a {
       color: #00ffe1;
       text-decoration: none;
       font-weight: bold;
       transition: 0.3s;
+      cursor: pointer;
     }
     nav a:hover {
       color: #ffffff;
     }
-    header {
+    .section {
+      width: 100vw;
       height: 100vh;
-      background: url('https://images.unsplash.com/photo-1581092331239-e0c68c78f08b?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
-      display: flex;
-      flex-direction: column;
+      display: none;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
+      padding: 40px;
       text-align: center;
-      color: white;
-      padding: 20px;
+      animation: fadeIn 0.7s ease;
     }
-    header h1 {
-      font-size: 5rem;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .active { display: flex; }
+    h1 {
+      font-size: 4rem;
       background: linear-gradient(to right, #00ccff, #ff00cc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: glow 2s ease-in-out infinite alternate;
     }
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #00ccff; }
-      to { text-shadow: 0 0 30px #ff00cc; }
+    h2 {
+      font-size: 2.5rem;
+      color: #00ffe1;
+      margin-bottom: 20px;
     }
-    header p {
-      font-size: 1.5rem;
-      margin: 20px 0;
+    p, ul {
+      font-size: 1.1rem;
+      color: #ccc;
+      max-width: 800px;
     }
-    .btn-container {
-      margin-top: 20px;
-    }
+    ul { list-style: none; padding: 0; }
+    ul li { margin-bottom: 10px; }
+    .btn-container { margin-top: 20px; }
     .btn {
       background: #00ccff;
       color: #000;
@@ -80,34 +114,9 @@
       background: #ff00cc;
       color: white;
     }
-    section {
-      max-width: 1000px;
-      margin: 100px auto;
-      padding: 0 20px;
-    }
-    section h2 {
-      font-size: 2.5rem;
-      color: #00ffe1;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    section p, ul {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: #ccc;
-    }
-    ul li {
-      margin-bottom: 10px;
-    }
-    .map-preview {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    .map-preview img {
-      border-radius: 10px;
-      width: 300px;
+    iframe, .map-preview, .killlog {
+      max-width: 90%;
+      margin-top: 20px;
     }
     .killlog {
       background: #111;
@@ -115,109 +124,65 @@
       border-radius: 10px;
       color: #0ff;
       font-family: monospace;
-      max-width: 700px;
-      margin: 0 auto;
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-    }
-    iframe {
-      display: block;
-      margin: 20px auto;
-      border-radius: 12px;
     }
     footer {
       text-align: center;
-      color: #777;
-      padding: 50px 20px;
+      padding: 20px;
       background: #0b0b0b;
-      margin-top: 100px;
+      color: #777;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#features">Features</a>
-    <a href="#trailer">Trailer</a>
-    <a href="#maps">Maps</a>
-    <a href="#killlog">Kill Log</a>
-    <a href="#roadmap">Roadmap</a>
-    <a href="#discord">Discord</a>
-    <a href="#credits">Credits</a>
+  <div id="login-screen">
+    <div>Welcome to <strong>rush.io</strong></div>
+    <input type="text" placeholder="Enter username to continue" id="usernameInput" onkeydown="if(event.key==='Enter')enterSite()">
+  </div>
+
+  <nav style="display:none">
+    <a onclick="showSection('home')">Home</a>
+    <a onclick="showSection('about')">About</a>
+    <a onclick="showSection('features')">Features</a>
+    <a onclick="showSection('trailer')">Trailer</a>
+    <a onclick="showSection('maps')">Maps</a>
+    <a onclick="showSection('killlog')">Kill Log</a>
+    <a onclick="showSection('roadmap')">Roadmap</a>
+    <a onclick="showSection('discord')">Discord</a>
+    <a onclick="showSection('credits')">Credits</a>
   </nav>
 
-  <header>
+  <div id="home" class="section active">
     <h1>rush.io</h1>
     <p>a fast-paced roblox FPS with bhop mechanics and pure chaos.</p>
     <div class="btn-container">
       <a class="btn" href="https://www.roblox.com/games/115765639656471/Beta" target="_blank">Play Now</a>
       <a class="btn" href="https://discord.gg/BnwdPRSKRs" target="_blank">Join Discord</a>
     </div>
-  </header>
+  </div>
 
-  <section id="about">
-    <h2>About the Game</h2>
-    <p>rush.io is a brutally fast FPS where movement is everything. Inspired by Krunker and old-school shooters, it’s all about bhopping, precision, and reflex. No mercy. Just movement and mastery.</p>
-  </section>
+  <div id="about" class="section"><h2>About the Game</h2><p>rush.io is a brutally fast FPS where movement is everything. Inspired by Krunker and old-school shooters, it’s all about bhopping, precision, and reflex. No mercy. Just movement and mastery.</p></div>
+  <div id="features" class="section"><h2>Key Features</h2><ul><li>Fluid bhop and movement system</li><li>Multiple competitive maps</li><li>Responsive controls and tight gunplay</li><li>Real-time kill log & leaderboard (coming soon)</li><li>Skins, settings, and private lobbies (WIP)</li></ul></div>
+  <div id="trailer" class="section"><h2>Gameplay Trailer</h2><iframe width="720" height="405" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe></div>
+  <div id="maps" class="section"><h2>Map Previews</h2><div class="map-preview"><img src="https://via.placeholder.com/300x180.png?text=Map+One" alt="Map 1"><img src="https://via.placeholder.com/300x180.png?text=Map+Two" alt="Map 2"><img src="https://via.placeholder.com/300x180.png?text=Map+Three" alt="Map 3"></div></div>
+  <div id="killlog" class="section"><h2>Kill Log (Sample)</h2><div class="killlog">radicnt slammed sweatykid123<br>ITypeTooMuchCodes clapped NoScopeKing<br>sweatykid123 ragequit<br>radicnt headshotted NoScopeKing<br>ITypeTooMuchCodes deleted everyone<br></div></div>
+  <div id="roadmap" class="section"><h2>Roadmap</h2><ul><li>Weapon customization (skins, stats)</li><li>Match history, rank system</li><li>UI overhaul + setting menu</li><li>Mod tools and sandbox features</li></ul></div>
+  <div id="discord" class="section"><h2>Join the Community</h2><p>Report bugs, suggest features, or just vibe with the devs and other sweats.</p><iframe src="https://discord.com/widget?id=1157372081141155860&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe></div>
+  <div id="credits" class="section"><h2>Credits</h2><p>Game built, developed and moderated by <strong>radicnt</strong> & <strong>ITypeTooMuchCodes</strong>. Respect the grind.</p></div>
 
-  <section id="features">
-    <h2>Key Features</h2>
-    <ul>
-      <li>Fluid bhop and movement system</li>
-      <li>Multiple competitive maps</li>
-      <li>Responsive controls and tight gunplay</li>
-      <li>Real-time kill log & leaderboard (coming soon)</li>
-      <li>Skins, settings, and private lobbies (WIP)</li>
-    </ul>
-  </section>
+  <footer>&copy; 2025 rush.io — all rights reserved. built with sweat, code, and late nights.</footer>
 
-  <section id="trailer">
-    <h2>Gameplay Trailer</h2>
-    <iframe width="720" height="405" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="rush.io Trailer" frameborder="0" allowfullscreen></iframe>
-  </section>
-
-  <section id="maps">
-    <h2>Map Previews</h2>
-    <div class="map-preview">
-      <img src="https://via.placeholder.com/300x180.png?text=Map+One" alt="Map 1">
-      <img src="https://via.placeholder.com/300x180.png?text=Map+Two" alt="Map 2">
-      <img src="https://via.placeholder.com/300x180.png?text=Map+Three" alt="Map 3">
-    </div>
-  </section>
-
-  <section id="killlog">
-    <h2>Kill Log (Sample)</h2>
-    <div class="killlog">
-      radicnt slammed sweatykid123<br>
-      ITypeTooMuchCodes clapped NoScopeKing<br>
-      sweatykid123 ragequit<br>
-      radicnt headshotted NoScopeKing<br>
-      ITypeTooMuchCodes deleted everyone<br>
-    </div>
-  </section>
-
-  <section id="roadmap">
-    <h2>Roadmap</h2>
-    <ul>
-      <li>Weapon customization (skins, stats)</li>
-      <li>Match history, rank system</li>
-      <li>UI overhaul + setting menu</li>
-      <li>Mod tools and sandbox features</li>
-    </ul>
-  </section>
-
-  <section id="discord">
-    <h2>Join the Community</h2>
-    <p>Report bugs, suggest features, or just vibe with the devs and other sweats.</p>
-    <iframe src="https://discord.com/widget?id=1157372081141155860&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
-  </section>
-
-  <section id="credits">
-    <h2>Credits</h2>
-    <p>Game built, developed and moderated by <strong>radicnt</strong> & <strong>ITypeTooMuchCodes</strong>. Respect the grind.</p>
-  </section>
-
-  <footer>
-    &copy; 2025 rush.io — all rights reserved. built with sweat, code, and late nights.
-  </footer>
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+    function enterSite() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.querySelector('nav').style.display = 'flex';
+      document.getElementById('home').classList.add('active');
+    }
+  </script>
 </body>
 </html>
