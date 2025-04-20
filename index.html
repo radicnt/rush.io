@@ -10,8 +10,8 @@
     html, body {
       height: 100%;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(120deg, #0f0f0f, #0a0a0a);
-      color: #e2e2e2;
+      background: url('https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=1740&q=80') no-repeat center center/cover;
+      color: #fff;
       overflow: hidden;
     }
     #login-screen {
@@ -20,128 +20,78 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: #000;
-      color: #0ff;
+      background: rgba(0, 0, 0, 0.9);
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       z-index: 9999;
-      font-size: 1.5rem;
-    }
-    #login-screen input {
-      margin-top: 20px;
-      padding: 10px;
-      background: #111;
-      border: 1px solid #0ff;
-      color: #0ff;
-      border-radius: 8px;
-    }
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: 20px;
-      z-index: 1000;
-      animation: slideDown 1s ease;
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    nav a {
-      color: #00ffe1;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    nav a:hover {
-      color: #ffffff;
-    }
-    .section {
-      width: 100vw;
-      height: 100vh;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding: 40px;
-      text-align: center;
-      animation: fadeIn 0.7s ease;
+      animation: fadeIn 1s ease-in-out;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-    .active { display: flex; }
-    h1 {
+    #login-logo {
       font-size: 4rem;
-      background: linear-gradient(to right, #00ccff, #ff00cc);
+      font-weight: bold;
+      letter-spacing: 3px;
+      background: linear-gradient(to right, #ffee00, #ff0055);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      margin-bottom: 40px;
+      position: relative;
     }
-    h2 {
-      font-size: 2.5rem;
-      color: #00ffe1;
-      margin-bottom: 20px;
-    }
-    p, ul {
-      font-size: 1.1rem;
-      color: #ccc;
-      max-width: 800px;
-    }
-    ul { list-style: none; padding: 0; }
-    ul li { margin-bottom: 10px; }
-    .btn-container { margin-top: 20px; }
-    .btn {
-      background: #00ccff;
-      color: #000;
-      padding: 15px 30px;
-      border: none;
+    .glow-line {
+      position: absolute;
+      top: -30px;
+      left: -40px;
+      width: 200px;
+      height: 200px;
+      border: 4px solid white;
       border-radius: 30px;
+      border-left: none;
+      border-bottom: none;
+      filter: drop-shadow(0 0 10px white);
+    }
+    .menu-buttons {
+      display: flex;
+      gap: 20px;
+    }
+    .menu-buttons button {
+      padding: 12px 28px;
       font-size: 1.1rem;
-      text-decoration: none;
-      margin: 0 10px;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #ff00cc;
+      border: 2px solid #fff;
+      background: transparent;
       color: white;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
     }
-    iframe, .map-preview, .killlog {
-      max-width: 90%;
-      margin-top: 20px;
+    .menu-buttons button:hover {
+      background: #fff;
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #fff;
     }
-    .killlog {
-      background: #111;
-      padding: 20px;
-      border-radius: 10px;
-      color: #0ff;
-      font-family: monospace;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #0b0b0b;
-      color: #777;
-      font-size: 0.9rem;
-    }
+    nav { display: none; }
+    .section { display: none; }
   </style>
 </head>
 <body>
   <div id="login-screen">
-    <div>Welcome to <strong>rush.io</strong></div>
-    <input type="text" placeholder="Enter username to continue" id="usernameInput" onkeydown="if(event.key==='Enter')enterSite()">
+    <div id="login-logo">
+      <span class="glow-line"></span>
+      RUSH.IO
+    </div>
+    <div class="menu-buttons">
+      <button onclick="enterSite()">Login</button>
+      <button onclick="window.open('https://www.roblox.com/games/115765639656471/Beta')">Play</button>
+      <button onclick="window.open('https://discord.gg/BnwdPRSKRs')">Discord</button>
+    </div>
   </div>
 
-  <nav style="display:none">
+  <nav>
     <a onclick="showSection('home')">Home</a>
     <a onclick="showSection('about')">About</a>
     <a onclick="showSection('features')">Features</a>
@@ -162,17 +112,6 @@
     </div>
   </div>
 
-  <div id="about" class="section"><h2>About the Game</h2><p>rush.io is a brutally fast FPS where movement is everything. Inspired by Krunker and old-school shooters, it’s all about bhopping, precision, and reflex. No mercy. Just movement and mastery.</p></div>
-  <div id="features" class="section"><h2>Key Features</h2><ul><li>Fluid bhop and movement system</li><li>Multiple competitive maps</li><li>Responsive controls and tight gunplay</li><li>Real-time kill log & leaderboard (coming soon)</li><li>Skins, settings, and private lobbies (WIP)</li></ul></div>
-  <div id="trailer" class="section"><h2>Gameplay Trailer</h2><iframe width="720" height="405" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe></div>
-  <div id="maps" class="section"><h2>Map Previews</h2><div class="map-preview"><img src="https://via.placeholder.com/300x180.png?text=Map+One" alt="Map 1"><img src="https://via.placeholder.com/300x180.png?text=Map+Two" alt="Map 2"><img src="https://via.placeholder.com/300x180.png?text=Map+Three" alt="Map 3"></div></div>
-  <div id="killlog" class="section"><h2>Kill Log (Sample)</h2><div class="killlog">radicnt slammed sweatykid123<br>ITypeTooMuchCodes clapped NoScopeKing<br>sweatykid123 ragequit<br>radicnt headshotted NoScopeKing<br>ITypeTooMuchCodes deleted everyone<br></div></div>
-  <div id="roadmap" class="section"><h2>Roadmap</h2><ul><li>Weapon customization (skins, stats)</li><li>Match history, rank system</li><li>UI overhaul + setting menu</li><li>Mod tools and sandbox features</li></ul></div>
-  <div id="discord" class="section"><h2>Join the Community</h2><p>Report bugs, suggest features, or just vibe with the devs and other sweats.</p><iframe src="https://discord.com/widget?id=1157372081141155860&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe></div>
-  <div id="credits" class="section"><h2>Credits</h2><p>Game built, developed and moderated by <strong>radicnt</strong> & <strong>ITypeTooMuchCodes</strong>. Respect the grind.</p></div>
-
-  <footer>&copy; 2025 rush.io — all rights reserved. built with sweat, code, and late nights.</footer>
-
   <script>
     function showSection(id) {
       document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
@@ -181,7 +120,7 @@
     function enterSite() {
       document.getElementById('login-screen').style.display = 'none';
       document.querySelector('nav').style.display = 'flex';
-      document.getElementById('home').classList.add('active');
+      document.getElementById('home').style.display = 'flex';
     }
   </script>
 </body>
