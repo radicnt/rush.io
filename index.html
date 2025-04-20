@@ -10,9 +10,19 @@
     html, body {
       height: 100%;
       font-family: 'Orbitron', sans-serif;
-      background: url('https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=1740&q=80') no-repeat center center/cover;
+      background: #0d0d0d;
       color: #fff;
       overflow: hidden;
+    }
+    #blur-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      backdrop-filter: blur(10px);
+      z-index: 9998;
+      display: none;
     }
     #login-screen {
       position: fixed;
@@ -20,7 +30,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.9);
+      background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -54,31 +64,62 @@
       border-bottom: none;
       filter: drop-shadow(0 0 10px white);
     }
-    .menu-buttons {
+    .menu-buttons, .extra-buttons {
       display: flex;
+      flex-wrap: wrap;
       gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
     }
-    .menu-buttons button {
+    .menu-buttons button, .extra-buttons button {
       padding: 12px 28px;
       font-size: 1.1rem;
       border: 2px solid #fff;
-      background: transparent;
+      background: #111;
       color: white;
-      border-radius: 30px;
+      border-radius: 10px;
       cursor: pointer;
       transition: all 0.3s;
     }
-    .menu-buttons button:hover {
+    .menu-buttons button:hover, .extra-buttons button:hover {
       background: #fff;
       color: #000;
       transform: scale(1.05);
       box-shadow: 0 0 20px #fff;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      padding: 30px;
+      border: 2px solid #555;
+      border-radius: 20px;
+      z-index: 10000;
+      max-width: 400px;
+      color: #ccc;
+    }
+    .modal h3 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .modal button {
+      margin-top: 20px;
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 10px;
+      padding: 5px 15px;
+      cursor: pointer;
     }
     nav { display: none; }
     .section { display: none; }
   </style>
 </head>
 <body>
+  <div id="blur-overlay"></div>
   <div id="login-screen">
     <div id="login-logo">
       <span class="glow-line"></span>
@@ -89,6 +130,36 @@
       <button onclick="window.open('https://www.roblox.com/games/115765639656471/Beta')">Play</button>
       <button onclick="window.open('https://discord.gg/BnwdPRSKRs')">Discord</button>
     </div>
+    <div class="extra-buttons">
+      <button onclick="openModal('shopModal')">Shop</button>
+      <button onclick="openModal('faqModal')">FAQ</button>
+      <button onclick="openModal('newsModal')">News</button>
+      <button onclick="openModal('forumModal')">Forum</button>
+    </div>
+  </div>
+
+  <div id="shopModal" class="modal">
+    <h3>Shop</h3>
+    <p>Weapon skins and cosmetics coming soon.</p>
+    <button onclick="closeModal('shopModal')">Close</button>
+  </div>
+
+  <div id="faqModal" class="modal">
+    <h3>FAQ</h3>
+    <p>Common questions will be listed here soon.</p>
+    <button onclick="closeModal('faqModal')">Close</button>
+  </div>
+
+  <div id="newsModal" class="modal">
+    <h3>News</h3>
+    <p>Patch notes and update announcements coming.</p>
+    <button onclick="closeModal('newsModal')">Close</button>
+  </div>
+
+  <div id="forumModal" class="modal">
+    <h3>Forum</h3>
+    <p>Talk with other players and leave feedback (coming soon).</p>
+    <button onclick="closeModal('forumModal')">Close</button>
   </div>
 
   <nav>
@@ -121,6 +192,14 @@
       document.getElementById('login-screen').style.display = 'none';
       document.querySelector('nav').style.display = 'flex';
       document.getElementById('home').style.display = 'flex';
+    }
+    function openModal(id) {
+      document.getElementById('blur-overlay').style.display = 'block';
+      document.getElementById(id).style.display = 'block';
+    }
+    function closeModal(id) {
+      document.getElementById('blur-overlay').style.display = 'none';
+      document.getElementById(id).style.display = 'none';
     }
   </script>
 </body>
