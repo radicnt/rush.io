@@ -1,205 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rush.io - Roblox FPS</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      height: 100%;
-      font-family: 'Orbitron', sans-serif;
-      background: #0d0d0d;
-      color: #fff;
-      overflow: hidden;
+      width: 100%; height: 100%; font-family: 'Orbitron', sans-serif;
+      background: #0d0d0d; color: #fff; overflow: hidden;
     }
-    #blur-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      backdrop-filter: blur(10px);
-      z-index: 9998;
-      display: none;
+    #app {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;
+      transition: 0.3s;
     }
-    #login-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 9999;
-      animation: fadeIn 1s ease-in-out;
+    .screen {
+      display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      width: 100vw; height: 100vh; position: absolute; top: 0; left: 0;
+      background: #0d0d0d; z-index: 10; transition: 0.3s ease-in-out;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    #login-logo {
+    .screen.active { display: flex; z-index: 20; }
+    h1 {
       font-size: 4rem;
-      font-weight: bold;
-      letter-spacing: 3px;
       background: linear-gradient(to right, #ffee00, #ff0055);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 40px;
-      position: relative;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 30px;
     }
-    .glow-line {
-      position: absolute;
-      top: -30px;
-      left: -40px;
-      width: 200px;
-      height: 200px;
-      border: 4px solid white;
-      border-radius: 30px;
-      border-left: none;
-      border-bottom: none;
-      filter: drop-shadow(0 0 10px white);
+    .btn-row {
+      display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;
     }
-    .menu-buttons, .extra-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      margin-top: 20px;
+    button {
+      background: transparent; border: 2px solid #fff; color: #fff;
+      padding: 12px 30px; border-radius: 30px; font-size: 1.1rem;
+      cursor: pointer; transition: 0.3s ease;
     }
-    .menu-buttons button, .extra-buttons button {
-      padding: 12px 28px;
-      font-size: 1.1rem;
-      border: 2px solid #fff;
-      background: #111;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s;
+    button:hover {
+      background: #fff; color: #000; transform: scale(1.05);
     }
-    .menu-buttons button:hover, .extra-buttons button:hover {
-      background: #fff;
-      color: #000;
-      transform: scale(1.05);
-      box-shadow: 0 0 20px #fff;
+    .back-btn {
+      position: absolute; top: 20px; left: 20px;
+      background: #111; border: 1px solid #fff; color: #fff;
+      padding: 10px 20px; border-radius: 20px; cursor: pointer;
     }
-    .modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #111;
-      padding: 30px;
-      border: 2px solid #555;
-      border-radius: 20px;
-      z-index: 10000;
-      max-width: 400px;
-      color: #ccc;
-    }
-    .modal h3 {
-      color: #fff;
-      margin-bottom: 10px;
-    }
-    .modal button {
-      margin-top: 20px;
-      background: transparent;
-      color: #fff;
-      border: 1px solid #fff;
-      border-radius: 10px;
-      padding: 5px 15px;
-      cursor: pointer;
-    }
-    nav { display: none; }
-    .section { display: none; }
   </style>
 </head>
 <body>
-  <div id="blur-overlay"></div>
-  <div id="login-screen">
-    <div id="login-logo">
-      <span class="glow-line"></span>
-      RUSH.IO
+  <div id="app">
+    <div id="mainScreen" class="screen active">
+      <h1>RUSH.IO</h1>
+      <div class="btn-row">
+        <button onclick="goTo('login')">Login</button>
+        <button onclick="window.open('https://www.roblox.com/games/115765639656471/Beta')">Play</button>
+        <button onclick="window.open('https://discord.gg/BnwdPRSKRs')">Discord</button>
+      </div>
+      <div class="btn-row" style="margin-top: 30px;">
+        <button onclick="goTo('shop')">Shop</button>
+        <button onclick="goTo('faq')">FAQ</button>
+        <button onclick="goTo('news')">News</button>
+        <button onclick="goTo('forum')">Forum</button>
+      </div>
     </div>
-    <div class="menu-buttons">
-      <button onclick="enterSite()">Login</button>
-      <button onclick="window.open('https://www.roblox.com/games/115765639656471/Beta')">Play</button>
-      <button onclick="window.open('https://discord.gg/BnwdPRSKRs')">Discord</button>
+
+    <div id="login" class="screen">
+      <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
+      <h1>Login</h1>
+      <p>Login system coming soon.</p>
     </div>
-    <div class="extra-buttons">
-      <button onclick="openModal('shopModal')">Shop</button>
-      <button onclick="openModal('faqModal')">FAQ</button>
-      <button onclick="openModal('newsModal')">News</button>
-      <button onclick="openModal('forumModal')">Forum</button>
+
+    <div id="shop" class="screen">
+      <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
+      <h1>Shop</h1>
+      <p>Weapon skins and cosmetics coming soon.</p>
     </div>
-  </div>
 
-  <div id="shopModal" class="modal">
-    <h3>Shop</h3>
-    <p>Weapon skins and cosmetics coming soon.</p>
-    <button onclick="closeModal('shopModal')">Close</button>
-  </div>
+    <div id="faq" class="screen">
+      <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
+      <h1>FAQ</h1>
+      <p>Answers to common questions will be listed here.</p>
+    </div>
 
-  <div id="faqModal" class="modal">
-    <h3>FAQ</h3>
-    <p>Common questions will be listed here soon.</p>
-    <button onclick="closeModal('faqModal')">Close</button>
-  </div>
+    <div id="news" class="screen">
+      <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
+      <h1>News</h1>
+      <p>Latest updates, devlogs and patch notes.</p>
+    </div>
 
-  <div id="newsModal" class="modal">
-    <h3>News</h3>
-    <p>Patch notes and update announcements coming.</p>
-    <button onclick="closeModal('newsModal')">Close</button>
-  </div>
-
-  <div id="forumModal" class="modal">
-    <h3>Forum</h3>
-    <p>Talk with other players and leave feedback (coming soon).</p>
-    <button onclick="closeModal('forumModal')">Close</button>
-  </div>
-
-  <nav>
-    <a onclick="showSection('home')">Home</a>
-    <a onclick="showSection('about')">About</a>
-    <a onclick="showSection('features')">Features</a>
-    <a onclick="showSection('trailer')">Trailer</a>
-    <a onclick="showSection('maps')">Maps</a>
-    <a onclick="showSection('killlog')">Kill Log</a>
-    <a onclick="showSection('roadmap')">Roadmap</a>
-    <a onclick="showSection('discord')">Discord</a>
-    <a onclick="showSection('credits')">Credits</a>
-  </nav>
-
-  <div id="home" class="section active">
-    <h1>rush.io</h1>
-    <p>a fast-paced roblox FPS with bhop mechanics and pure chaos.</p>
-    <div class="btn-container">
-      <a class="btn" href="https://www.roblox.com/games/115765639656471/Beta" target="_blank">Play Now</a>
-      <a class="btn" href="https://discord.gg/BnwdPRSKRs" target="_blank">Join Discord</a>
+    <div id="forum" class="screen">
+      <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
+      <h1>Forum</h1>
+      <p>Player discussions and feedback soon.</p>
     </div>
   </div>
 
   <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-    function enterSite() {
-      document.getElementById('login-screen').style.display = 'none';
-      document.querySelector('nav').style.display = 'flex';
-      document.getElementById('home').style.display = 'flex';
-    }
-    function openModal(id) {
-      document.getElementById('blur-overlay').style.display = 'block';
-      document.getElementById(id).style.display = 'block';
-    }
-    function closeModal(id) {
-      document.getElementById('blur-overlay').style.display = 'none';
-      document.getElementById(id).style.display = 'none';
+    function goTo(screenId) {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
     }
   </script>
 </body>
