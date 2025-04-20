@@ -4,149 +4,140 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>rush.io - Roblox FPS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: radial-gradient(circle at center, #0f0f0f, #050505);
-      color: white;
-      padding-top: 80px;
-      line-height: 1.6;
-      transition: background 0.5s ease;
-      animation: fadeIn 2s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(120deg, #0f0f0f, #0a0a0a);
+      color: #e2e2e2;
+      padding-top: 100px;
+      overflow-x: hidden;
     }
     nav {
       position: fixed;
       top: 0;
-      left: 0;
-      right: 0;
-      background: #111;
-      padding: 15px 30px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 2rem;
+      padding: 20px;
       z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
     }
     nav a {
-      color: #00ccff;
+      color: #00ffe1;
       text-decoration: none;
       font-weight: bold;
-      transition: color 0.3s ease;
+      transition: 0.3s;
     }
     nav a:hover {
-      color: #009fcc;
+      color: #ffffff;
     }
     header {
+      height: 100vh;
+      background: url('https://images.unsplash.com/photo-1581092331239-e0c68c78f08b?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      margin-bottom: 50px;
+      color: white;
+      padding: 20px;
     }
-    h1 {
-      font-size: 4rem;
-      margin-bottom: 10px;
-      letter-spacing: 3px;
-      background: linear-gradient(to right, #00ccff, #0066ff);
+    header h1 {
+      font-size: 5rem;
+      background: linear-gradient(to right, #00ccff, #ff00cc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: slideDown 1.2s ease;
+      animation: glow 2s ease-in-out infinite alternate;
     }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00ccff; }
+      to { text-shadow: 0 0 30px #ff00cc; }
     }
-    h2 {
-      font-size: 2rem;
-      margin: 40px 0 10px;
-      text-align: center;
+    header p {
+      font-size: 1.5rem;
+      margin: 20px 0;
     }
-    p {
-      font-size: 1.1rem;
-      max-width: 800px;
-      margin: 0 auto 20px;
-      text-align: center;
+    .btn-container {
+      margin-top: 20px;
     }
-    .play-btn, .discord-btn {
-      display: inline-block;
+    .btn {
       background: #00ccff;
       color: #000;
       padding: 15px 30px;
-      font-size: 1.2rem;
       border: none;
-      border-radius: 10px;
-      cursor: pointer;
+      border-radius: 30px;
+      font-size: 1.1rem;
       text-decoration: none;
+      margin: 0 10px;
       transition: 0.3s;
-      margin: 10px;
     }
-    .play-btn:hover, .discord-btn:hover {
-      background: #009fcc;
+    .btn:hover {
+      background: #ff00cc;
+      color: white;
     }
-    .section {
-      max-width: 900px;
-      margin: 0 auto 60px auto;
+    section {
+      max-width: 1000px;
+      margin: 100px auto;
+      padding: 0 20px;
+    }
+    section h2 {
+      font-size: 2.5rem;
+      color: #00ffe1;
       text-align: center;
-      padding: 20px;
+      margin-bottom: 30px;
     }
-    ul {
-      list-style: none;
-      padding: 0;
+    section p, ul {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ccc;
     }
     ul li {
-      background: #1f1f1f;
-      padding: 10px 20px;
-      margin: 5px auto;
-      border-radius: 8px;
-      max-width: 600px;
-      text-align: left;
+      margin-bottom: 10px;
+    }
+    .map-preview {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .map-preview img {
+      border-radius: 10px;
+      width: 300px;
+    }
+    .killlog {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      color: #0ff;
+      font-family: monospace;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
     }
     iframe {
       display: block;
       margin: 20px auto;
-      border-radius: 10px;
-    }
-    .killlog {
-      font-family: monospace;
-      background: #1e1e1e;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 600px;
-      margin: 20px auto;
-      color: #00ccff;
-    }
-    .map-preview {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .map-preview img {
-      width: 250px;
-      border-radius: 8px;
-    }
-    audio {
-      display: block;
-      margin: 0 auto 40px;
+      border-radius: 12px;
     }
     footer {
       text-align: center;
-      font-size: 0.9rem;
-      color: #aaa;
+      color: #777;
+      padding: 50px 20px;
+      background: #0b0b0b;
       margin-top: 100px;
     }
   </style>
 </head>
 <body>
   <nav>
-    <a href="#trailer">Trailer</a>
     <a href="#about">About</a>
     <a href="#features">Features</a>
+    <a href="#trailer">Trailer</a>
     <a href="#maps">Maps</a>
     <a href="#killlog">Kill Log</a>
     <a href="#roadmap">Roadmap</a>
@@ -156,49 +147,45 @@
 
   <header>
     <h1>rush.io</h1>
-    <p>a simple gun game with bhop mechanics. (currently in beta)</p>
-    <a class="play-btn" href="https://www.roblox.com/games/115765639656471/Beta" target="_blank">Play Now</a>
-    <a class="discord-btn" href="https://discord.gg/BnwdPRSKRs" target="_blank">Join Discord</a>
+    <p>a fast-paced roblox FPS with bhop mechanics and pure chaos.</p>
+    <div class="btn-container">
+      <a class="btn" href="https://www.roblox.com/games/115765639656471/Beta" target="_blank">Play Now</a>
+      <a class="btn" href="https://discord.gg/BnwdPRSKRs" target="_blank">Join Discord</a>
+    </div>
   </header>
 
-  <audio autoplay loop controls>
-    <source src="https://cdn.pixabay.com/audio/2023/04/12/audio_d900d238c2.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
-  <div class="section" id="trailer">
-    <h2>Gameplay Trailer</h2>
-    <iframe width="720" height="405" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="rush.io Trailer" frameborder="0" allowfullscreen></iframe>
-  </div>
-
-  <div class="section" id="about">
+  <section id="about">
     <h2>About the Game</h2>
-    <p>rush.io is a fast-paced FPS inspired by classics like krunker.io. The focus is on pure skill, tight movement, and clean gunplay. The game features bhop mechanics for momentum-based movement and fluid traversal. Expect intensity and chaos in every match.</p>
-  </div>
+    <p>rush.io is a brutally fast FPS where movement is everything. Inspired by Krunker and old-school shooters, it’s all about bhopping, precision, and reflex. No mercy. Just movement and mastery.</p>
+  </section>
 
-  <div class="section" id="features">
+  <section id="features">
     <h2>Key Features</h2>
     <ul>
-      <li>Smooth bhop-based movement mechanics</li>
-      <li>Quick respawn gunfight gameplay</li>
-      <li>Simple and clean UI</li>
-      <li>Multiple maps in rotation</li>
-      <li>Real-time kill logs and stats</li>
-      <li>Optimized for performance</li>
+      <li>Fluid bhop and movement system</li>
+      <li>Multiple competitive maps</li>
+      <li>Responsive controls and tight gunplay</li>
+      <li>Real-time kill log & leaderboard (coming soon)</li>
+      <li>Skins, settings, and private lobbies (WIP)</li>
     </ul>
-  </div>
+  </section>
 
-  <div class="section" id="maps">
+  <section id="trailer">
+    <h2>Gameplay Trailer</h2>
+    <iframe width="720" height="405" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="rush.io Trailer" frameborder="0" allowfullscreen></iframe>
+  </section>
+
+  <section id="maps">
     <h2>Map Previews</h2>
     <div class="map-preview">
-      <img src="https://via.placeholder.com/250x150.png?text=Map+1" alt="Map 1">
-      <img src="https://via.placeholder.com/250x150.png?text=Map+2" alt="Map 2">
-      <img src="https://via.placeholder.com/250x150.png?text=Map+3" alt="Map 3">
+      <img src="https://via.placeholder.com/300x180.png?text=Map+One" alt="Map 1">
+      <img src="https://via.placeholder.com/300x180.png?text=Map+Two" alt="Map 2">
+      <img src="https://via.placeholder.com/300x180.png?text=Map+Three" alt="Map 3">
     </div>
-  </div>
+  </section>
 
-  <div class="section" id="killlog">
-    <h2>Live Kill Log (Example)</h2>
+  <section id="killlog">
+    <h2>Kill Log (Sample)</h2>
     <div class="killlog">
       radicnt slammed sweatykid123<br>
       ITypeTooMuchCodes clapped NoScopeKing<br>
@@ -206,31 +193,31 @@
       radicnt headshotted NoScopeKing<br>
       ITypeTooMuchCodes deleted everyone<br>
     </div>
-  </div>
+  </section>
 
-  <div class="section" id="roadmap">
-    <h2>Development Roadmap</h2>
+  <section id="roadmap">
+    <h2>Roadmap</h2>
     <ul>
-      <li>Weapon skins and customization</li>
-      <li>Match history and leaderboard</li>
-      <li>Settings UI (sensitivity, FOV, etc.)</li>
-      <li>Private matches and custom lobbies</li>
+      <li>Weapon customization (skins, stats)</li>
+      <li>Match history, rank system</li>
+      <li>UI overhaul + setting menu</li>
+      <li>Mod tools and sandbox features</li>
     </ul>
-  </div>
+  </section>
 
-  <div class="section" id="discord">
+  <section id="discord">
     <h2>Join the Community</h2>
-    <p>Hop into our Discord to suggest features, report bugs, or just chill with the squad.</p>
+    <p>Report bugs, suggest features, or just vibe with the devs and other sweats.</p>
     <iframe src="https://discord.com/widget?id=1157372081141155860&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
-  </div>
+  </section>
 
-  <div class="section" id="credits">
+  <section id="credits">
     <h2>Credits</h2>
-    <p>Game developed, built, and moderated by <strong>radicnt</strong> and <strong>ITypeTooMuchCodes</strong>.</p>
-  </div>
+    <p>Game built, developed and moderated by <strong>radicnt</strong> & <strong>ITypeTooMuchCodes</strong>. Respect the grind.</p>
+  </section>
 
   <footer>
-    &copy; 2025 rush.io — All rights reserved.
+    &copy; 2025 rush.io — all rights reserved. built with sweat, code, and late nights.
   </footer>
 </body>
 </html>
