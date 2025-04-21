@@ -90,15 +90,22 @@
       font-size: 4rem;
       background: linear-gradient(to right, #00f0ff, #ff00f7);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
       z-index: 5;
       opacity: 0;
       animation: fadeInUp 1.2s ease-out 0.5s forwards;
     }
+    #subtext {
+      color: #0ff;
+      font-size: 1.1rem;
+      opacity: 0;
+      animation: fadeInUp 1.2s ease-out 1s forwards;
+      height: 30px;
+    }
     .btn-row {
       display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;
       opacity: 0;
-      animation: fadeInUp 1s ease-out 1s forwards;
+      animation: fadeInUp 1s ease-out 1.4s forwards;
     }
     button {
       background: transparent; border: 2px solid #0ff; color: #0ff;
@@ -122,12 +129,10 @@
       color: #888;
       z-index: 5;
     }
-
     @keyframes fadeInUp {
       from { transform: translateY(30px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-
     @keyframes slideDown {
       from { transform: translateY(-40px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
@@ -138,17 +143,16 @@
   <div class="parallax-layer layer-base"></div>
   <div class="parallax-layer layer-grid"></div>
   <div class="parallax-layer layer-glow"></div>
-
   <nav>
     <button onclick="goTo('mainScreen')">Home</button>
     <button onclick="goTo('faq')">FAQ</button>
     <button onclick="goTo('news')">News</button>
     <button onclick="goTo('forum')">Forum</button>
   </nav>
-
   <div id="app">
     <div id="mainScreen" class="screen active">
       <h1>RUSH.IO</h1>
+      <div id="subtext"></div>
       <div class="btn-row">
         <button onclick="window.open('https://www.roblox.com/games/115765639656471/Beta')">Play</button>
         <button onclick="window.open('https://discord.gg/BnwdPRSKRs')">Discord</button>
@@ -158,45 +162,66 @@
         &copy; 2025 rush.io | Site by radicnt & ITypeTooMuchCodes
       </footer>
     </div>
-
     <div id="faq" class="screen">
       <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
       <h1>FAQ</h1>
       <p>Answers to common questions will be listed here.</p>
     </div>
-
     <div id="news" class="screen">
       <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
       <h1>News</h1>
       <p>Latest updates, devlogs and patch notes.</p>
     </div>
-
     <div id="forum" class="screen">
       <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
       <h1>Forum</h1>
       <p>Player discussions and feedback soon.</p>
     </div>
   </div>
-
   <script>
     function goTo(screenId) {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
       document.getElementById(screenId).classList.add('active');
     }
-
     document.addEventListener('mousemove', e => {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
       const offsetX = (e.clientX - centerX) / centerX;
       const offsetY = (e.clientY - centerY) / centerY;
-
       document.body.style.setProperty('--x', `${e.clientX}px`);
       document.body.style.setProperty('--y', `${e.clientY}px`);
-
       document.querySelector('.layer-base').style.transform = `translate(${offsetX * 10}px, ${offsetY * 10}px)`;
       document.querySelector('.layer-grid').style.transform = `translate(${offsetX * 20}px, ${offsetY * 20}px)`;
       document.querySelector('.layer-glow').style.transform = `translate(${offsetX * 40}px, ${offsetY * 40}px)`;
     });
+
+    // rotating subtext
+    const lines = [
+      'connecting to lobby...',
+      'deploying loadout...',
+      'loading rooftops_beta.map',
+      'radicnt joined.',
+      'sniper server initialized.',
+      'rendering killcam...',
+      'waiting for players...'
+    ];
+    let i = 0;
+    const sub = document.getElementById("subtext");
+    function typeLine(text, index = 0) {
+      if (!text || !sub) return;
+      if (index <= text.length) {
+        sub.textContent = text.slice(0, index);
+        setTimeout(() => typeLine(text, index + 1), 35);
+      } else {
+        setTimeout(() => {
+          i = (i + 1) % lines.length;
+          typeLine(lines[i]);
+        }, 1500);
+      }
+    }
+    window.onload = () => {
+      typeLine(lines[0]);
+    };
   </script>
 </body>
 </html>
