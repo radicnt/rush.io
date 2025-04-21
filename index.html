@@ -10,7 +10,6 @@
     html, body {
       width: 100%; height: 100%; font-family: 'Orbitron', sans-serif;
       background: #000; color: #fff; overflow: hidden;
-      perspective: 1200px;
     }
     body::before {
       content: "";
@@ -20,30 +19,35 @@
       pointer-events: none;
       z-index: 1;
     }
-    .parallax {
+    .parallax-layer {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: url('https://images.unsplash.com/photo-1614853036537-2c509b2cc2b7?auto=format&fit=crop&w=2850&q=80') center/cover no-repeat;
-      z-index: 0;
-      transform-style: preserve-3d;
-      transform: translateZ(0);
-      transition: transform 0.1s linear;
-    }
-    .grid-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-image: linear-gradient(to right, rgba(0,255,255,0.04) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(0,255,255,0.04) 1px, transparent 1px);
-      background-size: 40px 40px;
-      z-index: 0;
+      background-position: center;
+      background-size: cover;
       pointer-events: none;
+    }
+    .layer-base {
+      background-image: url('https://images.unsplash.com/photo-1614853036537-2c509b2cc2b7?auto=format&fit=crop&w=2850&q=80');
+      z-index: 0;
+    }
+    .layer-grid {
+      background-image:
+        linear-gradient(to right, rgba(0,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 1;
+    }
+    .layer-glow {
+      background-image: radial-gradient(rgba(0,255,255,0.05) 1px, transparent 40%);
+      background-size: 200% 200%;
+      z-index: 2;
     }
     nav {
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(0, 0,  0, 0.8);
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
       padding: 15px 20px;
       display: flex;
@@ -131,14 +135,17 @@
   </style>
 </head>
 <body>
-  <div class="parallax"></div>
-  <div class="grid-overlay"></div>
+  <div class="parallax-layer layer-base"></div>
+  <div class="parallax-layer layer-grid"></div>
+  <div class="parallax-layer layer-glow"></div>
+
   <nav>
     <button onclick="goTo('mainScreen')">Home</button>
     <button onclick="goTo('faq')">FAQ</button>
     <button onclick="goTo('news')">News</button>
     <button onclick="goTo('forum')">Forum</button>
   </nav>
+
   <div id="app">
     <div id="mainScreen" class="screen active">
       <h1>RUSH.IO</h1>
@@ -178,15 +185,17 @@
     }
 
     document.addEventListener('mousemove', e => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const offsetX = (e.clientX - centerX) / centerX;
+      const offsetY = (e.clientY - centerY) / centerY;
+
       document.body.style.setProperty('--x', `${e.clientX}px`);
       document.body.style.setProperty('--y', `${e.clientY}px`);
 
-      const p = document.querySelector('.parallax');
-      if (p) {
-        const x = (e.clientX / window.innerWidth - 0.5) * 30;
-        const y = (e.clientY / window.innerHeight - 0.5) * 30;
-        p.style.transform = `translateZ(0) rotateX(${-y}deg) rotateY(${x}deg) scale(1.05)`;
-      }
+      document.querySelector('.layer-base').style.transform = `translate(${offsetX * 10}px, ${offsetY * 10}px)`;
+      document.querySelector('.layer-grid').style.transform = `translate(${offsetX * 20}px, ${offsetY * 20}px)`;
+      document.querySelector('.layer-glow').style.transform = `translate(${offsetX * 40}px, ${offsetY * 40}px)`;
     });
   </script>
 </body>
