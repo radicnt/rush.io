@@ -10,6 +10,7 @@
     html, body {
       width: 100%; height: 100%; font-family: 'Orbitron', sans-serif;
       background: #000; color: #fff; overflow: hidden;
+      perspective: 1200px;
     }
     body::before {
       content: "";
@@ -25,7 +26,9 @@
       width: 100vw; height: 100vh;
       background: url('https://images.unsplash.com/photo-1614853036537-2c509b2cc2b7?auto=format&fit=crop&w=2850&q=80') center/cover no-repeat;
       z-index: 0;
-      transform: scale(1.05);
+      transform-style: preserve-3d;
+      transform: translateZ(0);
+      transition: transform 0.1s linear;
     }
     .grid-overlay {
       position: fixed;
@@ -178,12 +181,11 @@
       document.body.style.setProperty('--x', `${e.clientX}px`);
       document.body.style.setProperty('--y', `${e.clientY}px`);
 
-      // parallax movement
       const p = document.querySelector('.parallax');
       if (p) {
-        const x = (e.clientX / window.innerWidth - 0.5) * 10;
-        const y = (e.clientY / window.innerHeight - 0.5) * 10;
-        p.style.transform = `scale(1.05) translate(${x}px, ${y}px)`;
+        const x = (e.clientX / window.innerWidth - 0.5) * 30;
+        const y = (e.clientY / window.innerHeight - 0.5) * 30;
+        p.style.transform = `translateZ(0) rotateX(${-y}deg) rotateY(${x}deg) scale(1.05)`;
       }
     });
   </script>
