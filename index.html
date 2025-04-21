@@ -19,6 +19,44 @@
       pointer-events: none;
       z-index: 1;
     }
+    .scanlines {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-image: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 0, rgba(0, 255, 255, 0.01) 1px, transparent 2px);
+      z-index: 3;
+      pointer-events: none;
+      animation: scan 4s linear infinite;
+    }
+    @keyframes scan {
+      0% { background-position-y: 0; }
+      100% { background-position-y: 100%; }
+    }
+    .vignette {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: radial-gradient(circle at center, transparent 60%, rgba(0, 0, 0, 0.5));
+      z-index: 4;
+      pointer-events: none;
+    }
+    .particles {
+      position: fixed;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .particle {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: rgba(0,255,255,0.05);
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-200vh); }
+    }
     .parallax-layer {
       position: fixed;
       top: 0; left: 0;
@@ -95,16 +133,6 @@
       opacity: 0;
       animation: fadeInUp 1.2s ease-out 0.5s forwards;
     }
-    #subtext {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      color: #0ff;
-      font-size: 1rem;
-      opacity: 0.8;
-      font-family: monospace;
-      text-align: right;
-    }
     .btn-row {
       display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;
       opacity: 0;
@@ -146,6 +174,9 @@
   <div class="parallax-layer layer-base"></div>
   <div class="parallax-layer layer-grid"></div>
   <div class="parallax-layer layer-glow"></div>
+  <div class="particles" id="particles"></div>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
   <nav>
     <button onclick="goTo('mainScreen')">Home</button>
     <button onclick="goTo('faq')">FAQ</button>
@@ -154,7 +185,6 @@
   </nav>
   <div id="app">
     <div id="mainScreen" class="screen active">
-      <div id="subtext"></div>
       <h1>RUSH.IO</h1>
       <div class="btn-row">
         <button onclick="window.open('https://www.roblox.com/games/115765639656471/Beta')">Play</button>
@@ -186,6 +216,7 @@
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
       document.getElementById(screenId).classList.add('active');
     }
+
     document.addEventListener('mousemove', e => {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
@@ -198,32 +229,17 @@
       document.querySelector('.layer-glow').style.transform = `translate(${offsetX * 40}px, ${offsetY * 40}px)`;
     });
 
-    const lines = [
-      'connecting to lobby...',
-      'deploying loadout...',
-      'loading rooftops_beta.map',
-      'radicnt joined.',
-      'sniper server initialized.',
-      'rendering killcam...',
-      'waiting for players...'
-    ];
-    let i = 0;
-    const sub = document.getElementById("subtext");
-    function typeLine(text, index = 0) {
-      if (!text || !sub) return;
-      if (index <= text.length) {
-        sub.textContent = text.slice(0, index);
-        setTimeout(() => typeLine(text, index + 1), 35);
-      } else {
-        setTimeout(() => {
-          i = (i + 1) % lines.length;
-          typeLine(lines[i]);
-        }, 1500);
-      }
+    const particleCount = 60;
+    const particles = document.getElementById("particles");
+    for (let i = 0; i < particleCount; i++) {
+      const p = document.createElement("div");
+      p.classList.add("particle");
+      p.style.left = `${Math.random() * 100}vw`;
+      p.style.top = `${Math.random() * 100}vh`;
+      p.style.animationDuration = `${4 + Math.random() * 6}s`;
+      p.style.opacity = Math.random() * 0.4;
+      particles.appendChild(p);
     }
-    window.onload = () => {
-      typeLine(lines[0]);
-    };
   </script>
 </body>
 </html>
