@@ -19,6 +19,23 @@
       pointer-events: none;
       z-index: 1;
     }
+    .parallax {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: url('https://images.unsplash.com/photo-1614853036537-2c509b2cc2b7?auto=format&fit=crop&w=2850&q=80') center/cover no-repeat;
+      z-index: 0;
+      transform: scale(1.05);
+    }
+    .grid-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: linear-gradient(to right, rgba(0,255,255,0.04) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(0,255,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+      pointer-events: none;
+    }
     nav {
       position: fixed;
       top: 0;
@@ -51,12 +68,13 @@
     #app {
       width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;
       transition: 0.3s;
+      position: relative;
+      z-index: 10;
     }
     .screen {
       display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center;
       width: 100vw; height: 100vh; position: absolute; top: 0; left: 0;
-      background: url('https://images.unsplash.com/photo-1614853036537-2c509b2cc2b7?auto=format&fit=crop&w=2850&q=80') center/cover no-repeat;
-      background-attachment: fixed;
+      background: transparent;
       z-index: 10;
       transition: 0.3s ease-in-out;
     }
@@ -110,6 +128,8 @@
   </style>
 </head>
 <body>
+  <div class="parallax"></div>
+  <div class="grid-overlay"></div>
   <nav>
     <button onclick="goTo('mainScreen')">Home</button>
     <button onclick="goTo('faq')">FAQ</button>
@@ -157,6 +177,14 @@
     document.addEventListener('mousemove', e => {
       document.body.style.setProperty('--x', `${e.clientX}px`);
       document.body.style.setProperty('--y', `${e.clientY}px`);
+
+      // parallax movement
+      const p = document.querySelector('.parallax');
+      if (p) {
+        const x = (e.clientX / window.innerWidth - 0.5) * 10;
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
+        p.style.transform = `scale(1.05) translate(${x}px, ${y}px)`;
+      }
     });
   </script>
 </body>
