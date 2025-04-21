@@ -120,17 +120,10 @@
       display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center;
       width: 100vw; height: 100vh; position: absolute; top: 0; left: 0;
       background: transparent;
-      opacity: 0;
-      pointer-events: none;
       z-index: 10;
-      transition: opacity 0.4s ease;
+      transition: 0.3s ease-in-out;
     }
-    .screen.active {
-      display: flex;
-      opacity: 1;
-      pointer-events: auto;
-      z-index: 20;
-    }
+    .screen.active { display: flex; z-index: 20; }
     h1 {
       font-size: 4rem;
       background: linear-gradient(to right, #00f0ff, #ff00f7);
@@ -211,11 +204,6 @@
       <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
       <h1>News</h1>
       <p>Latest updates, devlogs and patch notes.</p>
-      <p>gameplay preview:</p>
-      <img 
-        src="https://media.tenor.com/OHf9_6CdL1EAAAAC/skeleton-berserk-skeleton.gif" 
-        alt="berserk skeleton gameplay" 
-        style="margin-top: 20px; border: 2px solid #0ff; border-radius: 10px; width: 480px; height: auto;" />
     </div>
     <div id="forum" class="screen">
       <button class="back-btn" onclick="goTo('mainScreen')">← Back</button>
@@ -225,18 +213,8 @@
   </div>
   <script>
     function goTo(screenId) {
-      const screens = document.querySelectorAll('.screen');
-      screens.forEach(el => {
-        el.classList.remove('active');
-        setTimeout(() => {
-          el.style.display = 'none';
-        }, 400);
-      });
-      const next = document.getElementById(screenId);
-      next.style.display = 'flex';
-      setTimeout(() => {
-        next.classList.add('active');
-      }, 20);
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
     }
 
     document.addEventListener('mousemove', e => {
